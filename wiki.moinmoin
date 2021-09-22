@@ -201,10 +201,10 @@ The following guidelines are just ways to help you answer to that question.
    * When it is infeasible to comply with this policy, the justification, discussion and approval should all be clearly represented in the bug.
 
   * If it is a statically compiled rust package:
-   * If built using rust-*-dev package (discouraged for now, see below) any entry in `X-Cargo-Built-Using:` needs to be in main.
-   * until the reliability of rust library transitions improved all the dependencies have to be vendored
+   * A build using using rust-*-dev packages is forbidden right now.
+    * until the reliability of rust library quality and transitions improved all the rust-*-dev/cargo dependencies have to be vendored
    * Subsequent uploads to -devel releases are expected to always check and update vendored dependencies to the latest in-archive-available content (or newer)
-   * Subsequent uploads to SRUs are only meant to do bug-fixes following the usual SRU rules.
+   * As far as possible subsequent uploads to SRUs are also for the vendored libs only meant to do bug-fixes following the usual SRU rules.
 
   * Responsibilities once a package with vendored or statically built libs is promoted to main
     * General
