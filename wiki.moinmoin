@@ -200,12 +200,23 @@ The following guidelines are just ways to help you answer to that question.
 
    * When it is infeasible to comply with this policy, the justification, discussion and approval should all be clearly represented in the bug.
 
-   * Responsibilities once promoted to main (17.10+)
-    * the security team will track CVEs for all golang packages in main
-    * the security team will provide updates to main for all `golang-*-dev` packages
-    * the security team will provide updates to main for golang applications whose non-vendored source code is affected as per normal procedures (including e.g., sponsoring/coordinating uploads from teams/upstream projects, etc)
-    * the security team will perform no-change-rebuilds for all packages Built-Using `golang-*-dev` packages it has provided, and coordinate testing with the owning teams responsible for the rebuilt packages
-    * for packages that build using any `golang-*-dev` packages:
+  * If it is a statically compiled rust package:
+   * If built using rust-*-dev package (discouraged for now, see below) any entry in `X-Cargo-Built-Using:` needs to be in main.
+   * until the reliability of rust library transitions improved all the dependencies have to be vendored
+   * Subsequent uploads to -devel releases are expected to always check and update vendored dependencies to the latest in-archive-available content (or newer)
+   * Subsequent uploads to SRUs are only meant to do bug-fixes following the usual SRU rules.
+
+  * Responsibilities once a package with vendored or statically built libs is promoted to main
+    * General
+     * the security team will track CVEs for all embedded code in main packages
+     * the security team will provide updates to main for golang applications whose non-vendored source code is affected as per normal procedures (including e.g., sponsoring/coordinating uploads from teams/upstream projects, etc)
+    * Golang
+     * the security team will provide updates to main for all `golang-*-dev` packages that are embedded in a main package
+     * the security team will perform no-change-rebuilds for all packages Built-Using `golang-*-dev` packages it has provided, and coordinate testing with the owning teams responsible for the rebuilt packages
+    * Rust
+     * the security team will perform no-change-rebuilds for all rust packages with vendored code, and coordinate testing with the owning teams responsible for the rebuilt packages
+     * the security team will provide updates to main for all packages using vendored rust dpendencies
+    * for packages that build using any `golang-*-dev` (or later once allowed rust-*-dev) packages:
      * the owning team must state their commitment to test no-change-rebuilds triggered by a dependent library/compiler and to fix any issues found for the lifetime of the release (including ESM when included)
      * the owning team must provide timely testing of no-change-rebuilds from the security team, fixing the rebuilt package as necessary
     * for packages that build with approved vendored code:
@@ -241,11 +252,6 @@ The following guidelines are just ways to help you answer to that question.
     * Does the package use dh-golang (if not, suggest dh-make-golang to create the package)?
     * Does debian/control use `Built-Using: ${misc:Built-Using}` for each non'-dev' binary package (importantly, golang-*-dev packages only ship source files so don't need Built-Using)? 
     * Does the package follow [[http://pkg-go.alioth.debian.org/packaging.html|Debian Go packaging guidelines]]?
-   * If it is a statically compiled rust package:
-    * If built using rust*-dev package (discouraged for now, see below) any entry in `X-Cargo-Built-Using:` needs to be in main.
-    * until the reliability of rust library transitions improved all the dependencies have to be vendored
-    * Subsequent uploads to -devel releases are expected to always check and update vendored dependencies to the latest in-archive-available content (or newer)
-    * Subsequent uploads to SRUs are only meant to do bug-fixes following the usual SRU rules.
    * If a package shall be promoted it should NOT be on the lto-disabled list, but the fix, or the work-around should be directly in the package to enforce maintainer awareness and make it more visible to anyone looking at the package - see https://wiki.ubuntu.com/ToolChain/LTO.
 
  1. Upstream red flags
