@@ -206,6 +206,11 @@ The following guidelines are just ways to help you answer to that question.
    * Subsequent uploads to -devel releases are expected to always check and update vendored dependencies to the latest in-archive-available content (or newer)
    * As far as possible subsequent uploads to SRUs are also for the vendored libs only meant to do bug-fixes following the usual SRU rules.
 
+  * Refreshing Vendored dependencies require that the subscribing Team handles a bit more than for a usual package.
+   * How are vendored dependencies updated upstream?
+   * How can vendored dependencies be updated downstream?
+     * A list of commands, a description in README.source and/or scripts in debian/* are recommended
+
   * Responsibilities once a package with vendored or statically built libs is promoted to main
     * General
      * the security team will track CVEs for all embedded code in main packages
