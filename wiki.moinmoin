@@ -241,6 +241,11 @@ The following guidelines are just ways to help you answer to that question.
     * Does the package use dh-golang (if not, suggest dh-make-golang to create the package)?
     * Does debian/control use `Built-Using: ${misc:Built-Using}` for each non'-dev' binary package (importantly, golang-*-dev packages only ship source files so don't need Built-Using)? 
     * Does the package follow [[http://pkg-go.alioth.debian.org/packaging.html|Debian Go packaging guidelines]]?
+   * If it is a statically compiled rust package:
+    * If built using rust*-dev package (discouraged for now, see below) any entry in `X-Cargo-Built-Using:` needs to be in main.
+    * until the reliability of rust library transitions improved all the dependencies have to be vendored
+    * Subsequent uploads to -devel releases are expected to always check and update vendored dependencies to the latest in-archive-available content (or newer)
+    * Subsequent uploads to SRUs are only meant to do bug-fixes following the usual SRU rules.
    * If a package shall be promoted it should NOT be on the lto-disabled list, but the fix, or the work-around should be directly in the package to enforce maintainer awareness and make it more visible to anyone looking at the package - see https://wiki.ubuntu.com/ToolChain/LTO.
 
  1. Upstream red flags
@@ -297,6 +302,13 @@ TODO: Problems:
 OK:
 TODO: - no embedded source present
 TODO: - no static linking
+TODO: - Does not have Built-Using
+TODO: - Go Package that follows the Debian Go packaging guidelines
+TODO:   (see https://go-team.pages.debian.net/packaging.html)
+TODO: - No rust package with X-Cargo-Built-Using elements that are not in main
+TODO: - All rust*-dev dependencies are vendored
+TODO: - All vendored rust-dependencies have a way to be refreshed (recommended
+TODO:   is a documentation README.source and scripts in debian/*)
 
 TODO: Problems:
 
@@ -345,9 +357,6 @@ TODO: - promoting this does not seem to cause issues for MOTUs that so far
 TODO:   maintained the package
 TODO: - no massive Lintian warnings
 TODO: - d/rules is rather clean
-TODO: - Does not have Built-Using
-TODO: - Go Package that follows the Debian Go packaging guidelines
-TODO:   (see https://go-team.pages.debian.net/packaging.html)
 TODO: - is not on the lto-disabled list
 TODO:   (fix, or the work-around should be directly in the package,
 TODO:    see https://launchpad.net/ubuntu/+source/lto-disabled-list/+publishinghistory)
