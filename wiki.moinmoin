@@ -404,6 +404,12 @@ TODO-B:   alerted by the security team) commits to provide updates to the securi
 TODO-B:   team for any affected vendored code for the lifetime of the release
 TODO-B:   (including ESM).
 
+RULE: - if there has been an archive test rebuild that has occurred more recently
+RULE:   than the last upload, the package must have rebuilt successfully
+TODO-A: - The package has been built in the archive more recently than the last
+TODO-A:   test rebuild
+TODO-B: - The package successfully built during the most recent test rebuild
+
 [Background information]
 RULE: - The package descriptions should explain the general purpose and context
 RULE:   of the package. Additional explanations/justifications should be done in
